@@ -1,0 +1,54 @@
+import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router";
+
+const Login = () => {
+  return (
+    <div>
+      <h2 className="text-4xl font-bold text-gray-700">Welcome Back</h2>
+      <p>Login with ZapShift</p>
+      <div className="w-full md:w-2/3 mt-8 ">
+        <form className="space-y-3">
+          <div>
+            <label className=" font-medium ">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              className="border border-gray-400 focus:border-gray-600 outline-none rounded-md w-full py-2 px-4 mt-2"
+            />
+          </div>
+          <div>
+            <label className=" font-medium ">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Your Password"
+              className="border border-gray-400 focus:border-gray-600 outline-none rounded-md w-full py-2 px-4 mt-2"
+            />
+          </div>
+          <div>
+            <a href="#" className="underline text-xl font-medium text-gray-600">
+              Forget Password
+            </a>
+          </div>
+          <button className="w-full bg-primary py-2  rounded-md font-semibold  text-gray-700 cursor-pointer">
+            Sign In
+          </button>
+          <p className="text-gray-600">
+            Don’t have any account?{" "}
+            <Link to={"/register"} className="text-lime-600">
+              Register
+            </Link>
+          </p>
+        </form>
+        <div className="mt-4">
+          <button className="w-full py-2 bg-gray-100 text-gray-700 font-bold flex items-center justify-center gap-2 cursor-pointer">
+            <FcGoogle className="w-5 h-5" /> Login with google
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

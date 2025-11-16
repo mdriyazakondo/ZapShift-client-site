@@ -67,12 +67,13 @@ const Navbar = () => {
       </ul>
 
       <div className="lg:flex items-center gap-2 hidden ">
-        <button
+        <Link
+          to={"/login"}
           type="button"
           className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 hover:bg-primary border border-primary duration-300 cursor-pointer font-semibold hover:text-black text-gray-600 text-xl"
         >
           Sign In
-        </button>
+        </Link>
         <div className="flex items-center  ">
           <button
             type="button"
