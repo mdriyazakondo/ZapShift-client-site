@@ -1,15 +1,64 @@
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
+import useAuth from "../../hook/useAuth";
+import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const { createUserFunc, signInUserInGoogleFunc } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const handleRegistration = (data) => {
-    console.log(data);
+    createUserFunc(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        updateProfile(user, { displayName: data.name, photoURL: data?.photo });
+      })
+      .then(() => {
+        Swal.fire({
+          title: "Registration Successful!",
+          text: "Your account has been created.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Login Failed!",
+          text: err.message,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
+  };
+
+  // google login
+  const handleGoogleLogin = () => {
+    signInUserInGoogleFunc()
+      .then((result) => {
+        const user = result.user;
+        if (user) {
+          Swal.fire({
+            title: "Login Successful!",
+            text: `Welcome back, ${user.displayName}!`,
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Login Failed!",
+          text: err.message,
+          icon: "error",
+          confirmButtonText: "Try Again",
+        });
+      });
   };
 
   return (
@@ -86,7 +135,10 @@ const Register = () => {
           </p>
         </form>
         <div className="mt-4">
-          <button className="w-full py-2 bg-gray-100 text-gray-700 font-bold flex items-center justify-center gap-2 cursor-pointer">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full py-2 bg-gray-100 text-gray-700 font-bold flex items-center justify-center gap-2 cursor-pointer"
+          >
             <FcGoogle className="w-5 h-5" /> Login with google
           </button>
         </div>
