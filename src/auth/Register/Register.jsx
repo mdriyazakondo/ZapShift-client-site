@@ -63,8 +63,10 @@ const Register = () => {
 
   return (
     <div>
-      <h2 className="text-4xl font-bold text-gray-700">Create an Account</h2>
-      <p>Register with ZapShift</p>
+      <h2 className="text-4xl font-bold text-gray-700 text-center md:text-start">
+        Create an Account
+      </h2>
+      <p className="text-center md:text-start">Register with ZapShift</p>
       <div className="mt-4">
         <img src="/assets/image-upload-icon.png" alt="" />
       </div>
@@ -134,6 +136,7 @@ const Register = () => {
             </Link>
           </p>
         </form>
+        <p className="text-center my-3 text-gray-600 font-semibold">Or</p>
         <div className="mt-4">
           <button
             onClick={handleGoogleLogin}

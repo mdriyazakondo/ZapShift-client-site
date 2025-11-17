@@ -61,8 +61,10 @@ const Login = () => {
 
   return (
     <div>
-      <h2 className="text-4xl font-bold text-gray-700">Welcome Back</h2>
-      <p>Login with ZapShift</p>
+      <h2 className="text-4xl font-bold text-gray-700 text-center md:text-start">
+        Welcome Back
+      </h2>
+      <p className="text-center md:text-start">Login with ZapShift</p>
       <div className="w-full md:w-2/3 mt-8 ">
         <form onSubmit={handleSubmit(handleLoginSubmit)} className="space-y-3">
           <div>
@@ -106,9 +108,12 @@ const Login = () => {
             )}
           </div>
           <div>
-            <a href="#" className="underline text-xl font-medium text-gray-600">
+            <Link
+              to="/forget"
+              className="underline text-xl font-medium text-gray-600"
+            >
               Forget Password
-            </a>
+            </Link>
           </div>
           <button className="w-full bg-primary py-2  rounded-md font-semibold  text-gray-700 cursor-pointer">
             Sign In
@@ -120,6 +125,8 @@ const Login = () => {
             </Link>
           </p>
         </form>
+        <p className="text-center my-3 text-gray-600 font-semibold">Or</p>
+
         <div className="mt-4">
           <button
             onClick={handleGoogleLogin}
