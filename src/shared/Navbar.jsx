@@ -7,13 +7,49 @@ import { FcAbout } from "react-icons/fc";
 import { VscRunCoverage } from "react-icons/vsc";
 import { Link, useLocation } from "react-router";
 import { LuArrowUpRight } from "react-icons/lu";
+import useAuth from "../hook/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [isActive, setIsActive] = useState("/");
   const location = useLocation();
   const menuRef = useRef();
-  const user = false;
+  const { user, loading, signInUserLogoutFunc } = useAuth();
+  console.log(user);
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to log out?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User confirmed logout
+        signInUserLogoutFunc()
+          .then(() => {
+            Swal.fire({
+              title: "Logged Out!",
+              text: "You have been successfully logged out.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          })
+          .catch((err) => {
+            Swal.fire({
+              title: "Logout Failed!",
+              text: err.message,
+              icon: "error",
+              confirmButtonText: "Try Again",
+            });
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -21,9 +57,7 @@ const Navbar = () => {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -51,7 +85,6 @@ const Navbar = () => {
       <ul className="text-gray-600 lg:flex hidden items-center gap-10">
         {links.map((item) => (
           <Link
-            onClick={() => setIsActive(item.path)}
             to={item.path}
             key={item}
             className={`flex items-center gap-1 font-semibold ${
@@ -66,26 +99,56 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <div className="lg:flex items-center gap-2 hidden ">
-        <Link
-          to={"/login"}
-          type="button"
-          className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 hover:bg-primary border border-primary duration-300 cursor-pointer font-semibold hover:text-black text-gray-600 text-xl"
-        >
-          Sign In
-        </Link>
-        <div className="flex items-center  ">
-          <button
-            type="button"
-            className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 bg-primary border border-primary duration-300 cursor-pointer font-semibold text-black hover:text-gray-600 text-xl hover:bg-transparent"
-          >
-            Be a rider
-          </button>
-          <button className="cursor-pointer ">
-            <LuArrowUpRight className="w-12 h-12 p-3 bg-primary rounded-full hover:bg-transparent border border-primary" />
-          </button>
+      {loading ? (
+        <div className="w-8 h-8 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+      ) : (
+        <div className="lg:flex items-center gap-2 hidden ">
+          {user ? (
+            <div className="flex items-center gap-2">
+              <div>
+                <img
+                  className="w-11 h-11 rounded-full border border-primary"
+                  src={user?.photoURL || user?.reloadUserInfo.photoURL}
+                  alt=""
+                />
+              </div>
+              <button
+                onClick={handleLogout}
+                className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 hover:bg-primary border border-primary duration-300 cursor-pointer font-semibold hover:text-black text-gray-600 text-xl"
+              >
+                Logout
+              </button>
+              <button
+                type="button"
+                className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 bg-primary border border-primary duration-300 cursor-pointer font-semibold text-black hover:text-gray-600 text-xl hover:bg-transparent"
+              >
+                Be a rider
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                to={"/login"}
+                type="button"
+                className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 hover:bg-primary border border-primary duration-300 cursor-pointer font-semibold hover:text-black text-gray-600 text-xl"
+              >
+                Sign In
+              </Link>
+              <div className="flex items-center  ">
+                <button
+                  type="button"
+                  className="  px-4 py-2 rounded-md transition-all hover:opacity-90 active:scale-95 bg-primary border border-primary duration-300 cursor-pointer font-semibold text-black hover:text-gray-600 text-xl hover:bg-transparent"
+                >
+                  Be a rider
+                </button>
+                <button className="cursor-pointer ">
+                  <LuArrowUpRight className="w-12 h-12 p-3 bg-primary rounded-full hover:bg-transparent border border-primary" />
+                </button>
+              </div>
+            </>
+          )}
         </div>
-      </div>
+      )}
 
       <button
         aria-label="menu-btn"

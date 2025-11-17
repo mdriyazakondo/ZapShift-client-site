@@ -1,11 +1,13 @@
-import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hook/useAuth";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
 const Login = () => {
-  const { signInUserFunc, signInUserInGoogleFunc, user } = useAuth();
+  const { signInUserFunc, user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,30 +26,7 @@ const Login = () => {
             confirmButtonText: "OK",
           });
         }
-      })
-      .catch((err) => {
-        Swal.fire({
-          title: "Login Failed!",
-          text: err.message,
-          icon: "error",
-          confirmButtonText: "Try Again",
-        });
-      });
-  };
-
-  // google login
-  const handleGoogleLogin = () => {
-    signInUserInGoogleFunc()
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          Swal.fire({
-            title: "Login Successful!",
-            text: `Welcome back, ${user.displayName}!`,
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-        }
+        navigate(location.state?.form.pathName || "/");
       })
       .catch((err) => {
         Swal.fire({
@@ -126,15 +105,7 @@ const Login = () => {
           </p>
         </form>
         <p className="text-center my-3 text-gray-600 font-semibold">Or</p>
-
-        <div className="mt-4">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full py-2 bg-gray-100 text-gray-700 font-bold flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <FcGoogle className="w-5 h-5" /> Login with google
-          </button>
-        </div>
+        <GoogleLogin />
       </div>
     </div>
   );

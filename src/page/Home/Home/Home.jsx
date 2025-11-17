@@ -6,6 +6,7 @@ import Brands from "../Brands/Brands";
 import Reviews from "../Reviews/Reviews";
 import DeliveryFeatures from "../DeliveryFeatures/DeliveryFeatures";
 import ZapShiftBanner from "../ZapShiftBanner/ZapShiftBanner";
+import FaqSection from "../FaqSection/FaqSection";
 
 const reviewsPromise = fetch("/data/reviews.json").then((res) => res.json());
 
@@ -19,6 +20,7 @@ const Home = () => {
       <DeliveryFeatures />
       <ZapShiftBanner />
       <Reviews reviewsPromise={reviewsPromise} />
+      <FaqSection />
     </div>
   );
 };
