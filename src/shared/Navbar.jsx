@@ -3,6 +3,7 @@ import { FiMenu, FiHome, FiTag } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiSolidContact } from "react-icons/bi";
 import { FaBlog } from "react-icons/fa";
+import { MdSpaceDashboard } from "react-icons/md";
 import { FcAbout } from "react-icons/fc";
 import { VscRunCoverage } from "react-icons/vsc";
 import { Link, useLocation } from "react-router"; // FIXED
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
   const location = useLocation();
   const menuRef = useRef();
 
@@ -60,15 +62,18 @@ const Navbar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const links = [
     { path: "/", name: "Home", icon: <FiHome /> },
     { path: "/coverage", name: "Coverage", icon: <VscRunCoverage /> },
     { path: "/about", name: "About Us", icon: <FcAbout /> },
     { path: "/pricing", name: "Pricing", icon: <FiTag /> },
-    { path: "/blog", name: "Blog", icon: <FaBlog /> },
-    { path: "/contact", name: "Contact", icon: <BiSolidContact /> },
+    { path: "/sendParcel", name: "Send Parcel", icon: <BiSolidContact /> },
     { path: "/beaRider", name: "Be a Rider", icon: <BiSolidContact /> },
+
+    // 🟩 এখানে conditional link
+    user
+      ? { path: "/dashboard", name: "Dashboard", icon: <MdSpaceDashboard /> }
+      : {},
   ];
 
   return (
@@ -103,8 +108,49 @@ const Navbar = () => {
         <div className="w-8 h-8 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
       ) : (
         <div className="lg:flex items-center gap-2 hidden">
-          {user ? (
-            <div className="flex items-center gap-2">
+          {!user ? (
+            <div className="hidden lg:flex items-center gap-3">
+              <Link
+                to={"/login"}
+                className="border border-gray-400 text-gray-700 px-4 py-2 rounded-lg hover:border-black duration-200 text-base"
+              >
+                Sign In
+              </Link>
+              <Link
+                to={"/rider"}
+                className="bg-[#ccff66] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#c7fb60] duration-200 text-base"
+              >
+                Be a Rider
+              </Link>
+            </div>
+          ) : (
+            <div className="relative hidden lg:block">
+              <img
+                src={user?.photoURL}
+                alt="profile"
+                onClick={() => setIsProfile(!isProfile)}
+                className="w-10 h-10 rounded-full object-cover cursor-pointer border border-green-500"
+              />
+
+              {isProfile && (
+                <div className="absolute right-0 mt-3 w-52 bg-white shadow-lg rounded-xl py-3 px-4 flex flex-col gap-2">
+                  <p className="font-semibold">{user?.displayName}</p>
+                  <p className="text-sm text-gray-600">{user?.email}</p>
+                  <button
+                    onClick={handleLogout}
+                    className="mt-2 bg-red-500 text-white py-1.5 rounded-lg"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+          {/* {user ? (
+            <div
+              onClick={() => setIsProfile(!isProfile)}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <img
                 className="w-11 h-11 rounded-full border border-primary"
                 src={
@@ -115,12 +161,14 @@ const Navbar = () => {
                 alt="user"
               />
 
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 rounded-md cursor-pointer hover:bg-primary hover:text-black border border-primary text-gray-600 font-semibold text-xl transition"
-              >
-                Logout
-              </button>
+              <div className={` ${isProfile ? "block" : "hidden"}`}>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded-md cursor-pointer hover:bg-primary hover:text-black border border-primary text-gray-600 font-semibold text-xl transition"
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -143,7 +191,7 @@ const Navbar = () => {
                 </button>
               </div>
             </>
-          )}
+          )} */}
         </div>
       )}
 

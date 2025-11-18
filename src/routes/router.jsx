@@ -9,6 +9,9 @@ import Forget from "../auth/Forget/Forget";
 import About from "../page/About/About";
 import BeaRider from "../page/BeaRider/BeaRider";
 import PriviteRoute from "./PriviteRoute";
+import SendParcel from "../page/SendParcel/SendParcel";
+import DashboardLayout from "../layout/DashboardLayout/DashboardLayout";
+import MyParcels from "../page/Dashboard/MyParcels/MyParcels";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +38,15 @@ export const router = createBrowserRouter([
           </PriviteRoute>
         ),
       },
+      {
+        path: "/sendParcel",
+        element: (
+          <PriviteRoute>
+            <SendParcel />
+          </PriviteRoute>
+        ),
+        loader: () => fetch("/data/serviceCenter.json"),
+      },
     ],
   },
   {
@@ -54,5 +66,14 @@ export const router = createBrowserRouter([
         element: <Forget />,
       },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PriviteRoute>
+        <DashboardLayout />
+      </PriviteRoute>
+    ),
+    children: [{ path: "/dashboard", element: <MyParcels /> }],
   },
 ]);
