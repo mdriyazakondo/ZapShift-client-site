@@ -21,7 +21,10 @@ const GoogleLogin = () => {
             confirmButtonText: "OK",
           });
         }
-        navigate(location.state?.form.pathName || "/");
+
+        // FIXED redirect
+        const redirectPath = location.state?.from?.pathname || "/";
+        navigate(redirectPath);
       })
       .catch((err) => {
         Swal.fire({
@@ -32,6 +35,7 @@ const GoogleLogin = () => {
         });
       });
   };
+
   return (
     <div className="mt-4">
       <button

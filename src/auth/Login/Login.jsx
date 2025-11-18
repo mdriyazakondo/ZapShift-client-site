@@ -99,7 +99,11 @@ const Login = () => {
           </button>
           <p className="text-gray-600">
             Don’t have any account?{" "}
-            <Link to={"/register"} className="text-lime-600">
+            <Link
+              state={location.state}
+              to={"/register"}
+              className="text-lime-600"
+            >
               Register
             </Link>
           </p>

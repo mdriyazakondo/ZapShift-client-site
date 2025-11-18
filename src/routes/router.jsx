@@ -7,6 +7,8 @@ import Login from "../auth/Login/Login";
 import Register from "../auth/Register/Register";
 import Forget from "../auth/Forget/Forget";
 import About from "../page/About/About";
+import BeaRider from "../page/BeaRider/BeaRider";
+import PriviteRoute from "./PriviteRoute";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +26,14 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/beaRider",
+        element: (
+          <PriviteRoute>
+            <BeaRider />
+          </PriviteRoute>
+        ),
       },
     ],
   },

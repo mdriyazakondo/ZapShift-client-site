@@ -66,6 +66,7 @@ const AuthProvider = ({ children }) => {
     resetUserFunc,
     user,
     loading,
+    setLoading,
   };
 
   return (

@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hook/useAuth";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
+import axios from "axios";
 
 const Register = () => {
   const { createUserFunc } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,10 +17,22 @@ const Register = () => {
   } = useForm();
 
   const handleRegistration = (data) => {
+    const profileImage = data.photo[0];
     createUserFunc(data.email, data.password)
       .then((result) => {
         const user = result.user;
-        updateProfile(user, { displayName: data.name, photoURL: data?.photo });
+        const formData = new FormData();
+        formData.append("image", profileImage);
+        const imageUrl = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host
+        }`;
+
+        axios.post(imageUrl, formData).then((res) => {
+          updateProfile(user, {
+            displayName: data.name,
+            photoURL: res?.data?.data?.url,
+          });
+        });
       })
       .then(() => {
         Swal.fire({
@@ -26,6 +41,7 @@ const Register = () => {
           icon: "success",
           confirmButtonText: "OK",
         });
+        navigate(location.state?.form.pathName || "/");
       })
       .catch((err) => {
         Swal.fire({
@@ -59,6 +75,19 @@ const Register = () => {
             />
             {errors.name?.type === "required" && (
               <p className="text-red-400 font-medium">Name is required</p>
+            )}
+          </div>
+          <div>
+            <label className=" font-medium ">Photo</label>
+            <input
+              type="file"
+              name="name"
+              {...register("photo", { required: true })}
+              placeholder="Your Photo"
+              className="file-input w-full mt-2"
+            />
+            {errors.name?.type === "required" && (
+              <p className="text-red-400 font-medium">Photo is required</p>
             )}
           </div>
           <div>
@@ -107,7 +136,11 @@ const Register = () => {
           </button>
           <p className="text-gray-600">
             Already have an account?{" "}
-            <Link to={"/login"} className="text-lime-600">
+            <Link
+              state={location.state}
+              to={"/login"}
+              className="text-lime-600"
+            >
               Login
             </Link>
           </p>

@@ -27,7 +27,7 @@ const Reviews = ({ reviewsPromise }) => {
         effect={"coverflow"}
         grabCursor={true}
         centeredSlides={true}
-        slidesPerView={3}
+        slidesPerView={1}
         autoplay={{
           delay: 2000,
           disableOnInteraction: false,
@@ -40,7 +40,17 @@ const Reviews = ({ reviewsPromise }) => {
           scale: 0.75,
           slideShadows: true,
         }}
-        // pagination={true}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          },
+        }}
         modules={[EffectCoverflow, Pagination, Autoplay]}
         className="mySwiper"
       >
