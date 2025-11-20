@@ -1,102 +1,164 @@
-import React from "react";
-import { Outlet } from "react-router";
+import React, { useState } from "react";
+import { MdDashboardCustomize, MdPassword } from "react-icons/md";
+import {
+  FaTruck,
+  FaFileInvoiceDollar,
+  FaStore,
+  FaTags,
+  FaMapMarkedAlt,
+  FaCog,
+  FaQuestionCircle,
+  FaSignOutAlt,
+  FaBars,
+  FaBell,
+  FaUserCircle,
+} from "react-icons/fa";
+
+import { Link, Outlet, useLocation } from "react-router";
 
 const DashboardLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const menuItems = [
+    {
+      icon: <MdDashboardCustomize />,
+      label: "Dashboard",
+      path: "/dashboard/my-parcel",
+    },
+    { icon: <FaTruck />, label: "Deliveries", path: "/deliveries" },
+    { icon: <FaFileInvoiceDollar />, label: "Invoices", path: "/invoices" },
+    { icon: <FaStore />, label: "Stores", path: "/stores" },
+    { icon: <FaTags />, label: "Pricing Plan", path: "/pricing" },
+    {
+      icon: <FaMapMarkedAlt />,
+      label: "Coverage Area",
+      path: "/coverage-area",
+    },
+
+    // GENERAL SECTION
+    {
+      section: "GENERAL",
+    },
+
+    { icon: <FaCog />, label: "Settings", path: "/settings" },
+    {
+      icon: <MdPassword />,
+      label: "Change Password",
+      path: "/change-password",
+    },
+    { icon: <FaQuestionCircle />, label: "Help", path: "/help" },
+    { icon: <FaSignOutAlt />, label: "Logout", path: "/logout" },
+  ];
+
   return (
-    <div>
-      <div className="drawer lg:drawer-open">
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* Navbar */}
-          <nav className="navbar w-full bg-base-300">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
-            >
-              {/* Sidebar toggle icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2"
-                fill="none"
-                stroke="currentColor"
-                className="my-1.5 inline-block size-4"
-              >
-                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-                <path d="M9 4v16"></path>
-                <path d="M14 10l2 2l-2 2"></path>
-              </svg>
-            </label>
-            <div className="px-4">Navbar Title</div>
-          </nav>
-          {/* Page content here */}
-          <Outlet />
+    <div className="flex h-screen bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700">
+      {/* Sidebar for Desktop */}
+      <div
+        className={`hidden md:flex flex-col transition-all duration-300 ${
+          collapsed ? "w-20" : "w-64"
+        } bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700 shadow-lg`}
+      >
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          {!collapsed && (
+            <span className="text-2xl font-bold text-gray-700">
+              <Link to="/" className="relative text-xl font-semibold">
+                <img className="w-7 h-10" src="/assets/logo.png" alt="Logo" />
+                <span className="absolute bottom-0 left-3 text-xl font-extrabold">
+                  ZapShift
+                </span>
+              </Link>
+            </span>
+          )}
+          <FaBars
+            className="cursor-pointer text-gray-700"
+            onClick={() => setCollapsed(!collapsed)}
+          />
         </div>
+        <nav className="flex-1 p-2">
+          {menuItems.map((item, idx) => (
+            <Link
+              to={item.path}
+              key={idx}
+              className={`flex items-center p-3 mb-2 rounded-md cursor-pointer transition-all duration-200
+                ${
+                  location.pathname === item.path
+                    ? "bg-primary text-white shadow-md"
+                    : "hover:bg-gray-200"
+                }`}
+            >
+              <div className="text-lg">{item.icon}</div>
+              {!collapsed && <span className="ml-3">{item.label}</span>}
+            </Link>
+          ))}
+        </nav>
+        {!collapsed && (
+          <div className="p-4 border-t border-gray-200 text-sm">
+            © 2025 TailAdmin
+          </div>
+        )}
+      </div>
 
-        <div className="drawer-side is-drawer-close:overflow-visible">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-            {/* Sidebar content here */}
-            <ul className="menu w-full grow">
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
+      {/* Sidebar Overlay for Mobile */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-20 md:hidden">
+          <div
+            className="absolute inset-0 bg-black opacity-50"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="absolute left-0 top-0 w-64 h-full bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700 flex flex-col p-4 shadow-lg">
+            <div className="flex items-center justify-between mb-6">
+              <span className="text-2xl font-bold">Dashboard</span>
+              <FaTimes
+                className="cursor-pointer"
+                onClick={() => setSidebarOpen(false)}
+              />
+            </div>
+            <nav className="flex-1 p-2">
+              {menuItems.map((item, idx) => (
+                <Link
+                  to={item.path}
+                  key={idx}
+                  className={`flex items-center p-3 mb-2 rounded-md cursor-pointer transition-all duration-200
+                    ${
+                      location.pathname === item.path
+                        ? "bg-primary text-white shadow-md"
+                        : "hover:bg-gray-200"
+                    }`}
                 >
-                  {/* Home icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Homepage</span>
-                </button>
-              </li>
-
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
-                  >
-                    <path d="M20 7h-9"></path>
-                    <path d="M14 17H5"></path>
-                    <circle cx="17" cy="17" r="3"></circle>
-                    <circle cx="7" cy="7" r="3"></circle>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </button>
-              </li>
-            </ul>
+                  <div className="text-lg">{item.icon}</div>
+                  <span className="ml-3">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <header className="flex justify-between items-center bg-gradient-to-b from-gray-100 to-gray-100 p-4 shadow-md sticky top-0 z-10 text-gray-700">
+          <div className="flex items-center space-x-4">
+            <p className="text-2xl font-bold text-gray-700">
+              Zap Shift Dashboard
+            </p>
+            <FaBars
+              className="text-gray-700 text-xl cursor-pointer md:hidden"
+              onClick={() => setSidebarOpen(true)}
+            />
+          </div>
+          <div className="flex items-center space-x-4">
+            <FaBell className="text-gray-700 text-xl cursor-pointer" />
+            <FaUserCircle className="text-gray-700 text-2xl cursor-pointer" />
+          </div>
+        </header>
+
+        {/* Stats Cards */}
+        <main className="flex-1 p-6 overflow-y-auto">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

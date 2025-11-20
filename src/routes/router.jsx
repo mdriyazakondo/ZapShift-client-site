@@ -12,6 +12,7 @@ import PriviteRoute from "./PriviteRoute";
 import SendParcel from "../page/SendParcel/SendParcel";
 import DashboardLayout from "../layout/DashboardLayout/DashboardLayout";
 import MyParcels from "../page/Dashboard/MyParcels/MyParcels";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -74,6 +75,8 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </PriviteRoute>
     ),
-    children: [{ path: "/dashboard", element: <MyParcels /> }],
+    children: [
+      { path: "/dashboard/my-parcel", element: <MyParcels /> },
+    ],
   },
 ]);
