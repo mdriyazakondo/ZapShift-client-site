@@ -48,6 +48,7 @@ const SendParcel = () => {
         cost = minCharge + extraCharge;
       }
     }
+    data.cost = cost;
     Swal.fire({
       title: "Agre with the cost?",
       text: `You well be charge ${cost} Taka`,
@@ -59,7 +60,6 @@ const SendParcel = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure.post("/parcels", data).then((result) => {
-          console.log(result.data);
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
