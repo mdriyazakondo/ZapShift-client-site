@@ -2,12 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { FiMenu, FiHome, FiTag } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiSolidContact } from "react-icons/bi";
-import { FaBlog } from "react-icons/fa";
+import { FaRegCreditCard } from "react-icons/fa";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FcAbout } from "react-icons/fc";
 import { VscRunCoverage } from "react-icons/vsc";
-import { Link, useLocation } from "react-router"; // FIXED
-import { LuArrowUpRight } from "react-icons/lu";
+import { Link, useLocation } from "react-router";
 import useAuth from "../hook/useAuth";
 import Swal from "sweetalert2";
 
@@ -70,10 +69,20 @@ const Navbar = () => {
     { path: "/sendParcel", name: "Send Parcel", icon: <BiSolidContact /> },
     { path: "/beaRider", name: "Be a Rider", icon: <BiSolidContact /> },
 
-    // 🟩 এখানে conditional link
-    user
-      ? { path: "/dashboard", name: "Dashboard", icon: <MdSpaceDashboard /> }
-      : {},
+    ...(user
+      ? [
+          {
+            path: "/dashboard/my-parcel",
+            name: "Dashboard",
+            icon: <MdSpaceDashboard />,
+          },
+          {
+            path: "/dashboard/payment-history",
+            name: "Payment History",
+            icon: <FaRegCreditCard />,
+          },
+        ]
+      : []),
   ];
 
   return (

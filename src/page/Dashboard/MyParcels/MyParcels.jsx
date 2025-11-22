@@ -61,14 +61,14 @@ const MyParcels = () => {
   };
 
   return (
-    <div className="py-10 px-3 sm:px-6 lg:px-10 relative min-h-[56vh]">
+    <div className="py-10 px-3 md:px-6 lg:px-10 relative min-h-[56vh] w-full">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 sm:mb-6 text-center text-green-500">
         My All Post
       </h2>
 
       <div className="">
-        <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          <table className="min-w-full border border-gray-300 text-sm">
+        <div className="pl-80 md:pl-62 lg:pl-0 w-[420px] md:w-[500px] lg:w-[800px] xl:w-[1000px] md:mx-auto flex justify-center overflow-x-auto  scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+          <table className="lg:w-[800px] xl:w-[1000px] border border-gray-300 text-sm">
             <thead className="bg-primary text-gray-700">
               <tr>
                 <th className="px-4 py-3 text-center whitespace-nowrap">No.</th>

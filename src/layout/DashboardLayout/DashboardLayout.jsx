@@ -12,6 +12,8 @@ import {
   FaBars,
   FaBell,
   FaUserCircle,
+  FaTimes,
+  FaRegCreditCard,
 } from "react-icons/fa";
 
 import { Link, Outlet, useLocation } from "react-router";
@@ -25,9 +27,14 @@ const DashboardLayout = () => {
     {
       icon: <MdDashboardCustomize />,
       label: "Dashboard",
-      path: "/dashboard/my-parcel",
+      path: "/dashboard",
     },
-    { icon: <FaTruck />, label: "Deliveries", path: "/deliveries" },
+    { icon: <FaTruck />, label: "My Parcel", path: "/dashboard/my-parcel" },
+    {
+      path: "/dashboard/payment-history",
+      label: "Payment History",
+      icon: <FaRegCreditCard />,
+    },
     { icon: <FaFileInvoiceDollar />, label: "Invoices", path: "/invoices" },
     { icon: <FaStore />, label: "Stores", path: "/stores" },
     { icon: <FaTags />, label: "Pricing Plan", path: "/pricing" },
@@ -141,7 +148,7 @@ const DashboardLayout = () => {
         {/* Header */}
         <header className="flex justify-between items-center bg-gradient-to-b from-gray-100 to-gray-100 p-4 shadow-md sticky top-0 z-10 text-gray-700">
           <div className="flex items-center space-x-4">
-            <p className="text-2xl font-bold text-gray-700">
+            <p className="hidden md:block text-2xl font-bold text-gray-700">
               Zap Shift Dashboard
             </p>
             <FaBars
