@@ -44,6 +44,22 @@ const MyParcels = () => {
     });
   };
 
+  const handlePayment = async (parcel) => {
+    const paymentInfo = {
+      cost: parcel.cost,
+      parcelId: parcel._id,
+      parcelName: parcel?.parcelName,
+      senderEmail: parcel.senderEmail,
+    };
+
+    const res = await axiosSecure.post(
+      "/payment-checkout-session",
+      paymentInfo
+    );
+
+    window.location.href = res.data.url;
+  };
+
   return (
     <div className="py-10 px-3 sm:px-6 lg:px-10 relative min-h-[56vh]">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 sm:mb-6 text-center text-green-500">
@@ -90,14 +106,17 @@ const MyParcels = () => {
                     {item.cost}
                   </td>
                   <td className="px-4 py-2 text-center whitespace-nowrap">
-                    {item.paymentStatus === "paid" ? (
+                    {item.payment_status === "paid" ? (
                       <span className="text-green-400">Paid</span>
                     ) : (
-                      <Link to={`/dashboard/payment/${item._id}`}>
-                        <button className="bg-primary text-gray-700 cursor-pointer py-2 px-3 rounded-sm font-semibold">
-                          Pay
-                        </button>
-                      </Link>
+                      // <Link to={`/dashboard/payment/${item._id}`}>
+                      <button
+                        onClick={() => handlePayment(item)}
+                        className="bg-primary text-gray-700 cursor-pointer py-2 px-3 rounded-sm font-semibold"
+                      >
+                        Pay
+                      </button>
+                      // </Link>
                     )}
                   </td>
                   <td className="px-4 py-2 text-center whitespace-nowrap">
