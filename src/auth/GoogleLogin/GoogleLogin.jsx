@@ -19,7 +19,7 @@ const GoogleLogin = () => {
         const userInfo = {
           displayName: user.displayName,
           email: user.email,
-          photoUrl: user.photoURL, // FIXED
+          photoURL: user.photoURL,
         };
 
         // Prevent duplicate user issue (use PUT if possible)
