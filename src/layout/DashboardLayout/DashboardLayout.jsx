@@ -14,6 +14,7 @@ import {
   FaUserCircle,
   FaTimes,
   FaRegCreditCard,
+  FaMotorcycle,
 } from "react-icons/fa";
 
 import { Link, Outlet, useLocation } from "react-router";
@@ -34,6 +35,11 @@ const DashboardLayout = () => {
       path: "/dashboard/payment-history",
       label: "Payment History",
       icon: <FaRegCreditCard />,
+    },
+    {
+      path: "/dashboard/approve-riders",
+      label: "Approve Riders",
+      icon: <FaMotorcycle />,
     },
     { icon: <FaFileInvoiceDollar />, label: "Invoices", path: "/invoices" },
     { icon: <FaStore />, label: "Stores", path: "/stores" },

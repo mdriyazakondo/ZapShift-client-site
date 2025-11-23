@@ -16,6 +16,7 @@ import Payment from "../page/Dashboard/Payment/Payment";
 import PaymentSuccess from "../page/Dashboard/Payment/PaymentSuccess/PaymentSuccess";
 import PaymentCencel from "../page/Dashboard/Payment/PaymentCencel/PaymentCencel";
 import PaymentHIstory from "../page/Dashboard/Payment/PymentHistory/PaymentHIstory";
+import ApproveRiders from "../page/Dashboard/ApproveRiders/ApproveRiders";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,8 @@ export const router = createBrowserRouter([
             <BeaRider />
           </PriviteRoute>
         ),
+        loader: () =>
+          fetch("/data/serviceCenter.json").then((res) => res.json()),
       },
       {
         path: "/sendParcel",
@@ -50,7 +53,8 @@ export const router = createBrowserRouter([
             <SendParcel />
           </PriviteRoute>
         ),
-        loader: () => fetch("/data/serviceCenter.json"),
+        loader: () =>
+          fetch("/data/serviceCenter.json").then((res) => res.json()),
       },
     ],
   },
@@ -85,6 +89,7 @@ export const router = createBrowserRouter([
       { path: "/dashboard/payment-success", element: <PaymentSuccess /> },
       { path: "/dashboard/payment-cancelled", element: <PaymentCencel /> },
       { path: "/dashboard/payment-history", element: <PaymentHIstory /> },
+      { path: "/dashboard/approve-riders", element: <ApproveRiders /> },
     ],
   },
 ]);
