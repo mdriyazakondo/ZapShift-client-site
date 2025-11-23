@@ -2,38 +2,45 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hook/useAuth";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../hook/useAxios";
 
 const GoogleLogin = () => {
   const { signInUserInGoogleFunc } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
-  // google login
-  const handleGoogleLogin = () => {
-    signInUserInGoogleFunc()
-      .then((result) => {
-        const user = result.user;
-        if (user) {
-          Swal.fire({
-            title: "Login Successful!",
-            text: `Welcome back, ${user.displayName}!`,
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-        }
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInUserInGoogleFunc();
+      const user = result.user;
 
-        // FIXED redirect
-        const redirectPath = location.state?.from?.pathname || "/";
-        navigate(redirectPath);
-      })
-      .catch((err) => {
+      if (user) {
+        const userInfo = {
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL, // FIXED
+        };
+
+        // Prevent duplicate user issue (use PUT if possible)
+        await axiosSecure.post("/users", userInfo).catch(() => {});
+
         Swal.fire({
-          title: "Login Failed!",
-          text: err.message,
-          icon: "error",
-          confirmButtonText: "Try Again",
+          title: "Login Successful!",
+          text: `Welcome back, ${user.displayName}!`,
+          icon: "success",
         });
+      }
+
+      const redirectPath = location.state?.from?.pathname || "/";
+      navigate(redirectPath);
+    } catch (err) {
+      Swal.fire({
+        title: "Login Failed!",
+        text: err.message,
+        icon: "error",
       });
+    }
   };
 
   return (
@@ -42,7 +49,7 @@ const GoogleLogin = () => {
         onClick={handleGoogleLogin}
         className="w-full py-2 bg-gray-100 text-gray-700 font-bold flex items-center justify-center gap-2 cursor-pointer"
       >
-        <FcGoogle className="w-5 h-5" /> Login with google
+        <FcGoogle className="w-5 h-5" /> Login with Google
       </button>
     </div>
   );

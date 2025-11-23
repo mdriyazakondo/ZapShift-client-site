@@ -40,9 +40,18 @@ const PaymentHIstory = () => {
           {/* head */}
           <thead className="bg-primary">
             <tr className="text-center">
-              <th className=" border border-gray-400 font-bold text-gray-700">No.</th>
-              <th className=" border border-gray-400 font-bold text-gray-700">Name</th>
-              <th className=" border border-gray-400 font-bold text-gray-700">Amount</th>
+              <th className=" border border-gray-400 font-bold text-gray-700">
+                No.
+              </th>
+              <th className=" border border-gray-400 font-bold text-gray-700">
+                Name
+              </th>
+              <th className=" border border-gray-400 font-bold text-gray-700">
+                Amount
+              </th>
+              <th className=" border border-gray-400 font-bold text-gray-700">
+                Paid Time
+              </th>
               {/* <th className="text-nowrap">Payment Status</th> */}
               <th className="text-nowrap border border-gray-400 font-bold text-gray-700">
                 Transiction Id
@@ -62,6 +71,9 @@ const PaymentHIstory = () => {
                   </td>
                   <td className="text-nowrap border border-gray-400">
                     ${item.amount}
+                  </td>
+                  <td className="text-nowrap border border-gray-400">
+                    {new Date(item.paymentA).toLocaleString()}
                   </td>
                   {/* <td className="text-nowrap">{item.paymentStatus}</td> */}
                   <td className="text-nowrap border border-gray-400">

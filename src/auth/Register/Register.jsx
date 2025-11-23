@@ -5,9 +5,11 @@ import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import GoogleLogin from "../GoogleLogin/GoogleLogin";
 import axios from "axios";
+import useAxiosSecure from "../../hook/useAxios";
 
 const Register = () => {
   const { createUserFunc } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -16,7 +18,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const handleRegistration = (data) => {
+  const handleRegistration = async (data) => {
     const profileImage = data.photo[0];
     createUserFunc(data.email, data.password)
       .then((result) => {
@@ -27,10 +29,23 @@ const Register = () => {
           import.meta.env.VITE_image_host
         }`;
 
-        axios.post(imageUrl, formData).then((res) => {
+        axios.post(imageUrl, formData).then(async (res) => {
+          const photoUrl = res?.data?.data?.url;
+          const displayName = data.name;
+          const userInfo = {
+            displayName: displayName,
+            email: data.email,
+            // password: data.password,
+            photoURl: photoUrl,
+          };
+          axiosSecure.post("/users", userInfo).then((result) => {
+            if (result.data.insertedId) {
+              console.log("user create in the database");
+            }
+          });
           updateProfile(user, {
-            displayName: data.name,
-            photoURL: res?.data?.data?.url,
+            displayName: displayName,
+            photoURL: photoUrl,
           });
         });
       })
