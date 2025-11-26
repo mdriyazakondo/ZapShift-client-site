@@ -15,14 +15,18 @@ import {
   FaTimes,
   FaRegCreditCard,
   FaMotorcycle,
+  FaUsers,
 } from "react-icons/fa";
 
 import { Link, Outlet, useLocation } from "react-router";
+import useRole from "../../hook/useRole";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const { role } = useRole();
+  console.log(role);
 
   const menuItems = [
     {
@@ -41,6 +45,15 @@ const DashboardLayout = () => {
       label: "Approve Riders",
       icon: <FaMotorcycle />,
     },
+    ...(role === "admin"
+      ? [
+          {
+            path: "/dashboard/users-manegments",
+            label: "Users Manegments",
+            icon: <FaUsers />,
+          },
+        ]
+      : []),
     { icon: <FaFileInvoiceDollar />, label: "Invoices", path: "/invoices" },
     { icon: <FaStore />, label: "Stores", path: "/stores" },
     { icon: <FaTags />, label: "Pricing Plan", path: "/pricing" },

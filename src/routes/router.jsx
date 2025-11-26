@@ -17,6 +17,8 @@ import PaymentSuccess from "../page/Dashboard/Payment/PaymentSuccess/PaymentSucc
 import PaymentCencel from "../page/Dashboard/Payment/PaymentCencel/PaymentCencel";
 import PaymentHIstory from "../page/Dashboard/Payment/PymentHistory/PaymentHIstory";
 import ApproveRiders from "../page/Dashboard/ApproveRiders/ApproveRiders";
+import UserManegments from "../page/Dashboard/UserManegments/UserManegments";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -89,7 +91,23 @@ export const router = createBrowserRouter([
       { path: "/dashboard/payment-success", element: <PaymentSuccess /> },
       { path: "/dashboard/payment-cancelled", element: <PaymentCencel /> },
       { path: "/dashboard/payment-history", element: <PaymentHIstory /> },
-      { path: "/dashboard/approve-riders", element: <ApproveRiders /> },
+      {
+        path: "/dashboard/approve-riders",
+        element: (
+          <AdminRoute>
+            {" "}
+            <ApproveRiders />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/users-manegments",
+        element: (
+          <AdminRoute>
+            <UserManegments />
+          </AdminRoute>
+        ),
+      },
     ],
   },
 ]);
