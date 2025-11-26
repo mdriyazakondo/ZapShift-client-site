@@ -79,12 +79,12 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700">
+    <div className="flex h-screen bg-linear-to-b from-gray-100 to-gray-100 text-gray-700">
       {/* Sidebar for Desktop */}
       <div
         className={`hidden md:flex flex-col transition-all duration-300 ${
           collapsed ? "w-20" : "w-64"
-        } bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700 shadow-lg`}
+        } bg-linear-to-b from-gray-100 to-gray-100 text-gray-700 shadow-lg`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           {!collapsed && (
@@ -133,7 +133,7 @@ const DashboardLayout = () => {
             className="absolute inset-0 bg-black opacity-50"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="absolute left-0 top-0 w-64 h-full bg-gradient-to-b from-gray-100 to-gray-100 text-gray-700 flex flex-col p-4 shadow-lg">
+          <div className="absolute left-0 top-0 w-64 h-full bg-linear-to-b from-gray-100 to-gray-100 text-gray-700 flex flex-col p-4 shadow-lg">
             <div className="flex items-center justify-between mb-6">
               <span className="text-2xl font-bold">Dashboard</span>
               <FaTimes
@@ -165,7 +165,7 @@ const DashboardLayout = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="flex justify-between items-center bg-gradient-to-b from-gray-100 to-gray-100 p-4 shadow-md sticky top-0 z-10 text-gray-700">
+        <header className="flex justify-between items-center bg-linear-to-b from-gray-100 to-gray-100 p-4 shadow-md sticky top-0 z-10 text-gray-700">
           <div className="flex items-center space-x-4">
             <p className="hidden md:block text-2xl font-bold text-gray-700">
               Zap Shift Dashboard
