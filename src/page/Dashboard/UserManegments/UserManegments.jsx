@@ -90,8 +90,8 @@ const UserManegments = () => {
         className="mb-6 w-full md:w-1/4 "
       >
         <input
-          type="search"
-          // value={searchUser}
+          type="text"
+          value={searchUser}
           onChange={(e) => setSearchUser(e.target.value)}
           placeholder="Search Users..."
           className="border outline-none rounded-sm py-2 px-4 border-gray-400 w-full"
@@ -154,7 +154,7 @@ const UserManegments = () => {
                 </td>
 
                 {/* Other */}
-                <td cl>
+                <td className="">
                   <button className="btn btn-ghost btn-xs">Details</button>
                 </td>
               </tr>

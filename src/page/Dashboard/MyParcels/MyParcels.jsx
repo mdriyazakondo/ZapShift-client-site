@@ -67,8 +67,8 @@ const MyParcels = () => {
       </h2>
 
       <div className="">
-        <div className="pl-80 md:pl-62 lg:pl-0 w-[420px] md:w-[500px] lg:w-[800px] xl:w-[1000px] md:mx-auto flex justify-center overflow-x-auto  scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          <table className="lg:w-[800px] xl:w-[1000px] border border-gray-300 text-sm">
+        <div className="pl-[450px] md:pl-96 lg:pl-20 w-[420px] md:w-[500px] lg:w-[800px] xl:w-[1200px] md:mx-auto flex justify-center overflow-x-auto  scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+          <table className="lg:w-[800px] xl:w-[1200px] border border-gray-300 text-sm">
             <thead className="bg-primary text-gray-700">
               <tr>
                 <th className="px-4 py-3 text-center whitespace-nowrap">No.</th>
@@ -80,6 +80,9 @@ const MyParcels = () => {
                 </th>
                 <th className="px-4 py-3 text-center whitespace-nowrap">
                   Payment
+                </th>
+                <th className="px-4 py-3 text-center whitespace-nowrap">
+                  Tracking Id
                 </th>
                 <th className="px-4 py-3 text-center whitespace-nowrap">
                   Delevery Status
@@ -107,7 +110,7 @@ const MyParcels = () => {
                   </td>
                   <td className="px-4 py-2 text-center whitespace-nowrap">
                     {item.payment_status === "paid" ? (
-                      <span className="text-green-400">Paid</span>
+                      <span className="text-green-400 font-semibold">Paid</span>
                     ) : (
                       // <Link to={`/dashboard/payment/${item._id}`}>
                       <button
@@ -119,8 +122,11 @@ const MyParcels = () => {
                       // </Link>
                     )}
                   </td>
-                  <td className="px-4 py-2 text-center whitespace-nowrap">
-                    Panding
+                  <td className="px-4 py-2 text-center whitespace-nowrap text-gray-600 font-semibold">
+                    {item?.trackingId}
+                  </td>
+                  <td className="px-4 py-2 text-center whitespace-nowrap text-red-400 font-semibold">
+                    {item?.deliveryStatus}
                   </td>
 
                   <td className="px-4 py-2 text-center whitespace-nowrap flex items-center justify-center gap-3">

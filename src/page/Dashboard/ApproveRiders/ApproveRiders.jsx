@@ -17,6 +17,7 @@ const ApproveRiders = () => {
 
   const updateRiderStatus = async (rider, status) => {
     const updateInfo = { status: status, email: rider.email };
+    console.log(updateInfo);
     const result = await Swal.fire({
       title: "Approve This Rider?",
       text: `Are you sure you want to ${status} this rider?`,
@@ -29,7 +30,7 @@ const ApproveRiders = () => {
     if (!result.isConfirmed) return;
     try {
       const res = await axiosSecure.patch(`/riders/${rider._id}`, updateInfo);
-      console.log(res);
+      console.log(res)
       if (res.data?.result?.modifiedCount) {
         Swal.fire({
           icon: "success",
@@ -85,7 +86,12 @@ const ApproveRiders = () => {
               <th className="text-center border border-gray-300">Name</th>
               <th className="text-center border border-gray-300">Email</th>
               <th className="text-center border border-gray-300">District</th>
-              <th className="text-center border border-gray-300">Status</th>
+              <th className="text-center border border-gray-300">
+                Application Status
+              </th>
+              <th className="text-center border border-gray-300">
+                Work Status
+              </th>
               <th className="text-center border border-gray-300">Actions</th>
             </tr>
           </thead>
@@ -105,12 +111,15 @@ const ApproveRiders = () => {
                 </td>
                 <td
                   className={`text-center border font-semibold border-gray-300
-                     ${rider.status === "pending" ? " text-amber-500" : ""}
-                     ${rider.status === "approved" ? " text-green-500" : ""}
-                     ${rider.status === "rejected" ? " text-red-500" : ""}
-                     `}
+                    ${rider.status === "pending" ? " text-amber-500" : ""}
+                    ${rider.status === "approved" ? " text-green-500" : ""}
+                    ${rider.status === "rejected" ? " text-red-500" : ""}
+                    `}
                 >
                   {rider.status}
+                </td>
+                <td className="text-center border border-gray-300">
+                  {rider.workStatus}
                 </td>
                 <td className="text-center border border-gray-300 flex items-center gap-2 justify-center">
                   <button className=" w-8 h-5 cursor-pointer bg-blue-500 text-white flex items-center justify-center rounded-full">

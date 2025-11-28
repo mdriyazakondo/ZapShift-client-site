@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdDashboardCustomize, MdPassword } from "react-icons/md";
 import {
   FaTruck,
@@ -16,7 +16,9 @@ import {
   FaRegCreditCard,
   FaMotorcycle,
   FaUsers,
+  FaTasks,
 } from "react-icons/fa";
+import { RiEBikeLine } from "react-icons/ri";
 
 import { Link, Outlet, useLocation } from "react-router";
 import useRole from "../../hook/useRole";
@@ -26,7 +28,6 @@ const DashboardLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const { role } = useRole();
-  console.log(role);
 
   const menuItems = [
     {
@@ -40,13 +41,19 @@ const DashboardLayout = () => {
       label: "Payment History",
       icon: <FaRegCreditCard />,
     },
-    {
-      path: "/dashboard/approve-riders",
-      label: "Approve Riders",
-      icon: <FaMotorcycle />,
-    },
+
     ...(role === "admin"
       ? [
+          {
+            path: "/dashboard/approve-riders",
+            label: "Approve Riders",
+            icon: <FaMotorcycle />,
+          },
+          {
+            path: "/dashboard/assign-riders",
+            label: "Assign Riders",
+            icon: <RiEBikeLine />,
+          },
           {
             path: "/dashboard/users-manegments",
             label: "Users Manegments",
@@ -54,6 +61,16 @@ const DashboardLayout = () => {
           },
         ]
       : []),
+    ...(role === "rider"
+      ? [
+          {
+            path: "/dashboard/accept-riders",
+            label: "Assigned Deliver",
+            icon: <FaTasks />,
+          },
+        ]
+      : []),
+
     { icon: <FaFileInvoiceDollar />, label: "Invoices", path: "/invoices" },
     { icon: <FaStore />, label: "Stores", path: "/stores" },
     { icon: <FaTags />, label: "Pricing Plan", path: "/pricing" },
@@ -110,7 +127,7 @@ const DashboardLayout = () => {
               className={`flex items-center p-3 mb-2 rounded-md cursor-pointer transition-all duration-200
                 ${
                   location.pathname === item.path
-                    ? "bg-primary text-white shadow-md"
+                    ? "bg-primary text-gray-600 font-semibold shadow-md"
                     : "hover:bg-gray-200"
                 }`}
             >
