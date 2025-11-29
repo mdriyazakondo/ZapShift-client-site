@@ -18,6 +18,7 @@ import {
   FaUsers,
   FaTasks,
 } from "react-icons/fa";
+import { SiGoogletasks } from "react-icons/si";
 import { RiEBikeLine } from "react-icons/ri";
 
 import { Link, Outlet, useLocation } from "react-router";
@@ -42,6 +43,24 @@ const DashboardLayout = () => {
       icon: <FaRegCreditCard />,
     },
 
+    //======= rider links  =========//
+    ...(role === "rider"
+      ? [
+          {
+            path: "/dashboard/assigned-deliveries",
+            label: "Assigned Delivery",
+            icon: <FaTasks />,
+          },
+          {
+            path: "/dashboard/complited-deliveries",
+            label: "Completed Delivery",
+            icon: <SiGoogletasks />,
+          },
+        ]
+      : []),
+
+    //===== admin links  =======//
+
     ...(role === "admin"
       ? [
           {
@@ -58,15 +77,6 @@ const DashboardLayout = () => {
             path: "/dashboard/users-manegments",
             label: "Users Manegments",
             icon: <FaUsers />,
-          },
-        ]
-      : []),
-    ...(role === "rider"
-      ? [
-          {
-            path: "/dashboard/accept-riders",
-            label: "Assigned Deliver",
-            icon: <FaTasks />,
           },
         ]
       : []),

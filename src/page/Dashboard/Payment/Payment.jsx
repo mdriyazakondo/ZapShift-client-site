@@ -22,6 +22,7 @@ const Payment = () => {
       parcelId: parcel._id,
       parcelName: parcel?.parcelName,
       senderEmail: parcel.senderEmail,
+      trackingId: parcel.trackingId,
     };
     const res = await axiosSecure.post(
       "/stripe-checkout-sessions",

@@ -122,6 +122,7 @@ const Register = () => {
             <label className=" font-medium ">Password</label>
             <input
               type="password"
+              defaultValue="Riyaz111!"
               name="password"
               {...register("password", {
                 required: true,
