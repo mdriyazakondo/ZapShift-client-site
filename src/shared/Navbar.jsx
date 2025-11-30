@@ -72,7 +72,7 @@ const Navbar = () => {
     ...(user
       ? [
           {
-            path: "/dashboard/my-parcel",
+            path: "/dashboard",
             name: "Dashboard",
             icon: <MdSpaceDashboard />,
           },
